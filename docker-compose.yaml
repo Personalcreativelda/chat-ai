@@ -1,9 +1,9 @@
+version: "3.9"
 services:
   chat-ai:
-    build:
-      context: ./app/public   # 👈 aponta para a pasta onde está o Dockerfile
-      dockerfile: Dockerfile
+    build: .
     ports:
-      - "3002:3000"
-    env_file:
-      - .env
+      - "3005:3000"
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    restart: always
