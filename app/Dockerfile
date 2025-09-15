@@ -1,13 +1,17 @@
-FROM node:20
+FROM node:18
 
+# Definir pasta de trabalho
 WORKDIR /app
 
-COPY package*.json ./
+# Copiar package.json primeiro para instalar dependências
+COPY public/package*.json ./
 RUN npm install
 
-# Copia todo o conteúdo da pasta public (onde está o Dockerfile)
-COPY . .
+# Copiar o resto dos arquivos
+COPY public/ .
 
+# Expor a porta
 EXPOSE 3000
 
+# Comando para iniciar
 CMD ["node", "index.js"]
