@@ -1,12 +1,16 @@
-FROM node:18
+FROM node:20
 
 WORKDIR /app
 
-COPY public/package*.json ./
+# Copia os arquivos de dependência e instala
+COPY package*.json ./
 RUN npm install
 
-COPY public/ .
+# Copia todo o restante do projeto
+COPY . .
 
+# Expõe a porta
 EXPOSE 3000
 
-CMD ["node", "index.js"]
+# Comando para rodar o app
+CMD ["node", "server.js"]
