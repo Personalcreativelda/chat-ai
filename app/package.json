@@ -1,0 +1,13 @@
+{
+  "name": "chat-ai",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "dependencies": {
+    "express": "^4.19.0",
+    "openai": "^4.0.0"
+  },
+  "scripts": {
+    "start": "node index.js"
+  }
+}
