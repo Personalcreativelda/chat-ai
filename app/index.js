@@ -1,6 +1,6 @@
+import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import express from "express";
 import gemini from "./gemini.js";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -11,12 +11,17 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Serve arquivos estáticos da pasta public
+// Serve HTML e arquivos estáticos
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use(express.static(path.join(__dirname, "public")));
 
-// API Gemini
+// GET raiz
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public/index.html"));
+});
+
+// POST /chat
 app.post("/chat", async (req, res) => {
   const { message } = req.body;
   if (!message) return res.status(400).json({ error: "Envie a mensagem no campo 'message'" });
@@ -33,6 +38,5 @@ app.post("/chat", async (req, res) => {
   }
 });
 
-// Inicia servidor
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
