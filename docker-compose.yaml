@@ -1,13 +1,8 @@
 services:
   chat-ai:
-    image: node:20
+    build: ./app
     container_name: chat-ai
-    working_dir: /app
-    volumes:
-      - ./app:/app
-    command: sh -c "npm install && npm start"
     ports:
-      - "3002:3000"   # porta livre na VPS : porta interna do container
+      - "3002:3000"
     environment:
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - PORT=3000
+      - GEMINI_API_KEY=AIzaSyD1gr_zQKocI6j1Ho1u9gVAizi_XvP4NY4
