@@ -1,17 +1,17 @@
 FROM node:18
 
-# Definir pasta de trabalho
+# Pasta de trabalho
 WORKDIR /app
 
-# Copiar package.json primeiro para instalar dependências
+# Copiar package.json para instalar dependências
 COPY public/package*.json ./
 RUN npm install
 
-# Copiar o resto dos arquivos
+# Copiar os restantes arquivos do projeto
 COPY public/ .
 
 # Expor a porta
 EXPOSE 3000
 
-# Comando para iniciar
+# Iniciar o servidor
 CMD ["node", "index.js"]
