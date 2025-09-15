@@ -1,7 +1,8 @@
-// app/gemini.js
 import { GoogleGenAI } from "@google/genai";
+import dotenv from "dotenv";
 
-// Instancia o cliente Gemini com a chave da API do .env
+dotenv.config();
+
 const gemini = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY
 });
