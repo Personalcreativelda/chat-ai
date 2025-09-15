@@ -1,16 +1,13 @@
-version: '3.9'
-
 services:
   chat-ai:
-    image: node:20          # Usa Node.js 20 já pronto
+    image: node:20
     container_name: chat-ai
     working_dir: /app
     volumes:
-      - ./app:/app          # mapeia a pasta app para dentro do container
+      - ./app:/app
     command: sh -c "npm install && npm start"
     ports:
-      - "3000:3000"
+      - "3002:3000"   # porta livre na VPS : porta interna do container
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - PORT=3002
-
+      - PORT=3000
