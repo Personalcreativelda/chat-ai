@@ -1,50 +1,34 @@
-// index.js
-const express = require('express');
-const axios = require('axios');
+import express from "express";
+import gemini from "./gemini.js";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 
-// Porta interna do container
 const port = process.env.PORT || 3000;
 
-// Rota raiz para teste
-app.get('/', (req, res) => {
-  res.send('API do ChatGPT rodando! Use /chat para enviar mensagens.');
+app.get("/", (req, res) => {
+  res.send("API Gemini rodando! Use POST /gemini com { message }");
 });
 
-// Rota /chat
-app.post('/chat', async (req, res) => {
-  const userMessage = req.body.message;
-
-  if (!userMessage) {
-    return res.status(400).json({ error: 'Envie a mensagem no campo "message"' });
-  }
+app.post("/gemini", async (req, res) => {
+  const { message } = req.body;
+  if (!message) return res.status(400).json({ error: "Envie a mensagem no campo 'message'" });
 
   try {
-    const response = await axios.post(
-      'https://api.openai.com/v1/chat/completions',
-      {
-        model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: userMessage }]
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-        }
-      }
-    );
-
-    const reply = response.data.choices[0].message.content;
-    res.json({ reply });
+    const response = await gemini.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: message
+    });
+    res.json({ reply: response.text });
   } catch (err) {
-    console.error(err.response?.data || err.message);
-    res.status(500).json({ error: 'Erro ao conectar com a API do OpenAI' });
+    console.error(err);
+    res.status(500).json({ error: "Erro ao conectar com a API Gemini" });
   }
 });
 
-// Inicia o servidor
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
