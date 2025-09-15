@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Gemini</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 50px auto; }
+    input { width: 80%; padding: 10px; }
+    button { padding: 10px; }
+    #response { margin-top: 20px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>Chat com Gemini</h1>
+  <input id="message" type="text" placeholder="Digite sua mensagem">
+  <button id="send">Enviar</button>
+  <div id="response"></div>
+
+  <script>
+    const input = document.getElementById("message");
+    const btn = document.getElementById("send");
+    const responseDiv = document.getElementById("response");
+
+    btn.addEventListener("click", async () => {
+      const message = input.value;
+      if (!message) return;
+
+      try {
+        const res = await fetch("http://dws0s4s0wsgoc8ggkgwwggsc.168.231.104.15.sslip.io/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+
+        const data = await res.json();
+        responseDiv.innerText = data.reply;
+      } catch (err) {
+        responseDiv.innerText = "Erro: " + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
